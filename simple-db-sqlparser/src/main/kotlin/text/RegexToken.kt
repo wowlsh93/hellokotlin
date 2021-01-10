@@ -1,0 +1,65 @@
+/*  (c) 2004 Allen I. Holub. All rights reserved.
+ *
+ *  This code may be used freely by yourself with the following
+ *  restrictions:
+ *
+ *  o Your splash screen, about box, or equivalent, must include
+ *    Allen Holub's name, copyright, and URL. For example:
+ *
+ *      This program contains Allen Holub's SQL package.<br>
+ *      (c) 2005 Allen I. Holub. All Rights Reserved.<br>
+ *              http://www.holub.com<br>
+ *
+ *    If your program does not run interactively, then the foregoing
+ *    notice must appear in your documentation.
+ *
+ *  o You may not redistribute (or mirror) the source code.
+ *
+ *  o You must report any bugs that you find to me. Use the form at
+ *    http://www.holub.com/company/contact.html or send email to
+ *    allen@Holub.com.
+ *
+ *  o The software is supplied <em>as is</em>. Neither Allen Holub nor
+ *    Holub Associates are responsible for any bugs (or any problems
+ *    caused by bugs, including lost productivity or data)
+ *    in any of this code.
+ */
+package com.holub.text
+
+/** Matches a token specified by a regular expression.
+ * (as described in the [java.util.regex.Pattern]
+ * class.
+ *
+ * @include /etc/license.txt
+ *
+ * @see java.util.regex.Pattern
+ *
+ * @see Token
+ */
+class RegexToken(private val id: String) : Token {
+    private var matcher: Matcher? = null
+    private val pattern: Pattern
+    fun match(input: String, offset: Int): Boolean {
+        matcher = pattern.matcher(input.substring(offset))
+        return matcher.lookingAt()
+    }
+
+    override fun lexeme(): String {
+        return matcher.group()
+    }
+
+    override fun toString(): String {
+        return id
+    }
+
+    /** Create a token.
+     * @param description a regular expression
+     * ([see][java.util.Pattern]) that describes
+     * the set of lexemes associated with this token.
+     * The expression is case insensitive, so the
+     * expression "ABC" also recognizes "abc".
+     */
+    init {
+        pattern = Pattern.compile(id, Pattern.CASE_INSENSITIVE)
+    }
+}
