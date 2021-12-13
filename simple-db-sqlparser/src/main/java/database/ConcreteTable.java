@@ -494,7 +494,7 @@ import com.holub.tools.ArrayIterator;
 										Selector 		where,
 										String[] 		requestedColumns,
 										Table[] 		allTables,
-										Cursor[] allIterators,
+										Cursor[] 		allIterators,
 										Table 			resultTable )
 	{
 		allIterators[level] = allTables[level].rows();
@@ -502,7 +502,6 @@ import com.holub.tools.ArrayIterator;
 		while( allIterators[level].advance() )
 		{	// If we haven't reached the tips of the branches yet,
 			// go down one more level.
-
 			if( level < allIterators.length - 1 )
 				selectFromCartesianProduct(level+1, where,
 									requestedColumns,
@@ -511,9 +510,8 @@ import com.holub.tools.ArrayIterator;
 			// If we are at the leaf level, then get approval for
 			// the fully-assembled row, and add the row to the table
 			// if it's approved.
-
-			if( level == allIterators.length - 1 )
-			{	if( where.approve(allIterators) )
+			if( level == allIterators.length - 1 ) {
+				if( where.approve(allIterators) )
 					insertApprovedRows( resultTable,
 									requestedColumns, allIterators );
 			}

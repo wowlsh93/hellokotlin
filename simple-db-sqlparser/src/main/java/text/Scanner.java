@@ -190,8 +190,7 @@ public class Scanner
 					if( !loadLine() )
 						return null;
 
-				while( Character.isWhitespace(
-								inputLine.charAt(inputPosition)) )
+				while( Character.isWhitespace(inputLine.charAt(inputPosition)) )
 					if( ++inputPosition == inputLine.length() )
 						if( !loadLine() )
 							return null;
