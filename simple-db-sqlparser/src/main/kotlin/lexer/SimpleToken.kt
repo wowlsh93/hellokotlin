@@ -26,6 +26,8 @@
  */
 package com.holub.text
 
+import sqlparser.lexer.Token
+
 /** Matches a simple symbol that doesn't have to be on a "word"
  * boundary; punctuation, for example. SimpleToken
  * is very efficient, but does not recognize characters in
@@ -36,7 +38,7 @@ package com.holub.text
  */
 class SimpleToken(pattern: String) : Token {
     private val pattern: String
-    fun match(input: String, offset: Int): Boolean {
+    override fun match(input: String, offset: Int): Boolean {
         return input.toLowerCase().startsWith(pattern, offset)
     }
 
