@@ -1,8 +1,0 @@
-{
-  "name": "key",
-  "type": "record",
-  "fields": [
-    {"name": "name", "type": "string"},
-    {"name": "timestamp", "type": "int"}
-  ]
-}

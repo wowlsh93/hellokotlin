@@ -1,7 +1,0 @@
-{
-  "name": "FileMetadata",
-  "type": "record",
-  "fields": [
-    {"name": "nextFreePageId", "type": "PageId"}
-  ]
-}

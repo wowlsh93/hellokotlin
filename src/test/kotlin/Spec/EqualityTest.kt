@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 2021. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat vat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
+package Spec
+
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
+
+internal class EqualityTest{
+
+    @Test
+    fun equalTest() {
+       val a = Equality(1)
+       val b = Equality(1)
+
+        if (a == b) {
+            println("a==b")
+        }
+
+        if(a === b) {
+            println("a===b")
+        }
+
+        if(a.equals(b)){
+            println("a equals b")
+        }
+
+    }
+
+}
