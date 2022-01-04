@@ -4,7 +4,6 @@ import Delegate.Dog
 import Delegate.Lion
 import Tree.BinarySearchTree
 import Tree.Printer
-import MultiThreadPattern.future.CompletableFutureTest
 import library.ClassToTest
 import library.MyObject
 
@@ -38,11 +37,6 @@ fun treeTest() {
     Printer<Int,Int>().printTree(tree)
 }
 
-fun completableFuture(){
-
-    val test = CompletableFutureTest()
-    test.test()
-}
 
 fun genericTest(){
 
