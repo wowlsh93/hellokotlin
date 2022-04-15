@@ -1,43 +1,60 @@
 package generics
 
+import kotlin.reflect.KClass
 
-fun copy(from: Array<out Any>, to: Array<Any?>) {
-  assert(from.size == to.size)
-  for (i in from.indices)
-    to[i] = from[i]
+//fun <T> printGenerics(value: T) {
+//  when (value::class) {  // compile error!
+//    String::class.java -> {
+//      println("String : $value")
+//    }
+//    Int::class.java -> {
+//      println("Integer : $value")
+//    }
+//  }
+//}
+
+fun <T> printGenerics(value: T, classType: KClass<*>) {
+  when (classType) {
+    String::class -> {
+      println("String : $value")
+    }
+    Int::class -> {
+      println("Int : $value")
+    }
+  }
 }
 
-fun fill(dest: Array<in Int>, value: Int) {
-  dest[0] = value
+inline fun <reified T> printGenerics(value: T) {
+  when (T::class) {
+    String::class -> {
+      println("String : $value")
+    }
+    Int::class -> {
+      println("Int : $value")
+    }
+  }
+}
+
+inline fun<reified T> getMessage(number: Int): T {
+  return when (T::class) {
+    String::class -> "The number is : $number" as T
+    Int::class -> number as T
+    else -> "Not string, Not Integer" as T
+  }
 }
 
 fun main(arr : Array<String>){
 
-  val ints: Array<Int> = arrayOf(1, 2, 3)
-  val any: Array<Any?> = arrayOfNulls(3)
+  printGenerics("print generics function1", String::class)
+  printGenerics(1000, Int::class)
 
-  copy(ints, any)
+  printGenerics("print generics function2")
+  printGenerics(2000)
 
-  assertEquals(any[0], 1)
-  assertEquals(any[1], 2)
-  assertEquals(any[2], 3)
+  val result : Int = getMessage(10)
+  println("result: $result")
 
-  val objects: Array<Any?> = arrayOfNulls(1)
-  fill(objects, 1)
-  assertEquals(objects[0], 1)
+  val resultString : String = getMessage(100)
+  println("result: $resultString")
 
-}
-
-fun assertEquals(any: Any?, i: Int) {
-    if(any == i)
-      println("ok")
-    else
-      println("error")
-}
-
-fun assertTrue(b: Boolean) {
-  when(b) {
-    true -> "true"
-    false -> "false"
-  }
 }
