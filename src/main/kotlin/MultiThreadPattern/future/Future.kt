@@ -1,3 +1,8 @@
+
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
+
+
 /*
  * Copyright 2012 OpusM Corp
  * written by  hama
@@ -55,4 +60,12 @@
 //  println("wait.............")
 //  val result: String = future.get()
 //  println(result)
+
+
+//  var future: Future<String> = Executors.newSingleThreadExecutor()
+//  .submit<String> {
+//    Thread.sleep(5000)
+//    "This is the future"
+//  }
+
 //}

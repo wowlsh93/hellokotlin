@@ -30,7 +30,9 @@ enum class AssetKind{
 data class Token(
     override val id: String,
     override val name: String,
-    var balance: Int) : Asset,Transfer{
+    var balance: Int) :
+    Asset,Transfer {
+
     override fun moveTo(id: String) {
         TODO("Not yet implemented")
     }
@@ -57,7 +59,7 @@ data class Account(val id: String, val name: String?): Transfer {
 
     fun withrawToken(id: String, balance: Int): Int {
         val token = assets.find { it -> it.id == id  } as Token
-        require(token.balance > balance )
+        require(token.balance > balance ) {" The withdrawal amount can't exceed the account amount. withdrawl amount : $balance , account amount: ${token.balance}"}
         token.balance = token.balance - balance
         return balance
     }
@@ -78,9 +80,26 @@ class Bank{
     }
 
     fun withrawToken(accountId: String, tokenId: String, balance: Int):Int{
-        return  kotlin.runCatching { accounts.get(accountId)?.withrawToken(tokenId, balance)}
+        return  runCatching { accounts.get(accountId)?.withrawToken(tokenId, balance) }
         .onFailure { println(" withraw token failure") }
         .onSuccess { println(" withraw token success") }
-        .getOrDefault(0)!!
+            .getOrThrow()!!
     }
+}
+
+
+fun main() {
+
+    val bank = Bank()
+    val account = Account("1", "hama")
+    account.createToken(Token("1", "NN2", 300))
+    bank.createAccount(account)
+
+    try{
+        bank.withrawToken("1", "1", 400)
+    }
+    catch(ex : Exception) {
+        println(ex.toString())
+    }
+
 }

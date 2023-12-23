@@ -1,6 +1,6 @@
-//package Tutorial
-//
-//fun main(args: Array<String>) {
+package Tutorial
+
+fun main(args: Array<String>) {
 //    var str = "Kotlin Tutorial - Replace String - Programs"
 //    val oldValue = "Programs"
 //    val newValue = "Examples"
@@ -19,14 +19,14 @@
 //    val output = str.replace(oldValue, newValue, ignoreCase = true)
 //
 //    println(output)
-//
-//    /////////////  remove whitspace
+
+    /////////////  remove whitspace
 //    var sentence = "T    his is b  ett     er."
 //    println("Original sentence: $sentence")
 //
 //    sentence = sentence.replace("\\s".toRegex(), "")
 //    println("After replacement: $sentence")
-//
+
 //    Original sentence: T    his is b  ett     er.
 //    After replacement: Thisisbetter.
 //
@@ -34,7 +34,7 @@
 //    val regex = """a([bc]+)d?""".toRegex()
 //    val matchResult = regex.find("abcb abbd")
 //
-//    assertEquals("abcb", matchResult.value)
+//    println(matchResult!!.value)
 //
 //    //////////////// group destructing
 //
@@ -77,4 +77,4 @@
 //
 //    assertEquals(listOf(
 //        "Roses", "are", "red", "Violets", "are", "blue"), regex.split(beautiful))
-//}
+}

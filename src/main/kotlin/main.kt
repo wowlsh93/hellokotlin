@@ -1,59 +1,30 @@
 
-import Delegate.Cat
-import Delegate.Dog
-import Delegate.Lion
-import Tree.BinarySearchTree
-import Tree.Printer
-import library.ClassToTest
-import library.MyObject
+import kotlin.reflect.KProperty
 
+//Delegating the boolean preference saving option
+class BooleanPreference(
+  private val preferences: Lazy<SharedPreferences>,
+  private val name: String,
+  private val defaultValue: Boolean
+) : ReadWriteProperty<Any, Boolean> {
 
-fun library_test() {
-    val lib = ClassToTest()
-    lib.classFunction("hi", MyObject())
-}
+  @WorkerThread
+  override fun getValue(thisRef: Any, property: KProperty<*>): Boolean {
+    return preferences.value.getBoolean(name, defaultValue)
+  }
+  override fun setValue(thisRef: Any, property: KProperty<*>, value: Boolean) {
+    preferences.value.edit().putBoolean(name, value).apply()
+  }
 
-fun delegateTest(){
-
-    Dog(3 ,"bob").name.also { println(it)}
-
-    val cat = Cat(mapOf("age" to 3, "name" to "bob"))
-    println(cat.age)
-    println(cat.name)
-
-    println(Lion().gettingAge())
-}
-
-fun treeTest() {
-    val tree = BinarySearchTree<Int, Int>()
-    tree.insert(10,10)
-    tree.insert(3,3)
-    tree.insert(15,15)
-    tree.insert(5,5)
-    tree.insert(6,6)
-    tree.insert(1,1)
-    tree.delete(3)
-
-    Printer<Int,Int>().printTree(tree)
-}
-
-
-fun genericTest(){
-
-}
-
-fun proxyTest(){
-    proxy.test3()
 }
 
 fun main() {
-    //library_test()
-    //delegateTest()
-    //treeTest()
-    //exceptionTest()
-    //completableFuture()
-    //genericTest()
-    //LedgerQL().test()
-    //proxyTest()
+
+  val e = Example()
+  println(e.p)
+
+  e.p = MySQL("BYE")
+
+  println(e.p.getAddress())
 
 }

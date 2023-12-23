@@ -6,39 +6,48 @@
  * Vestibulum commodo. Ut rhoncus gravida arcu.
  */
 
-
-// proxy는 중간에서 대리 역할을 한다.
-
-   // decorator는 중간에서 꾸며주는 역할의 대리 역할을 한다.
-   // adaptor는 중간에서 변환 해주는 역할의 대리 역할을 한다.
-
-// proxy는 캐시역할을 할 수 있다.
-// proxy는 리모트통신을 감춰준다.
-// proxy는 ACL 역할을 할 수 있다.
-// proxy는 트랜잭션 처리를 대행 해 준다.
-
-package proxy
-
+import java.lang.IllegalArgumentException
+import java.lang.reflect.InvocationHandler
+import java.lang.reflect.Method
 import java.lang.reflect.Proxy
+
 
 interface Contract {
 
-  fun first(value: Int): String
+  fun first(value: Int): Int
 
   fun second(value1: Int, value2: Int): String
 
   fun third(): String
 }
 
+object  MyInvocationHandler : InvocationHandler {
+  override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any {
+    println("method : ${method?.name}, args : ${args?.joinToString()}")
 
-class ContractProxy1 {
-  val contract: Contract = Proxy.newProxyInstance(Contract::class.java.classLoader, arrayOf(Contract::class.java)) { _, method, args ->
-    "method : ${method.name}, args : ${args?.joinToString()}"
-  } as Contract
+    return when(method?.name) {
+      "first" ->  return 1
+      "second" -> return "2"
+      "third" -> return "3"
+      else -> IllegalArgumentException("No method in the Object")
+    }
+  }
+
 }
 
-fun test2() {
-  val contracts1 = ContractProxy1().contract
+
+
+class ContractProxy1 {
+
+  fun make(): Contract{
+    return Proxy.newProxyInstance(Contract::class.java.classLoader,
+      arrayOf(Contract::class.java),
+      MyInvocationHandler) as Contract
+  }
+}
+
+fun main() {
+  val contracts1 = ContractProxy1().make()
   println(contracts1.first(1))
   println(contracts1.second(3, 4))
   println(contracts1.third())
