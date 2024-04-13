@@ -7,6 +7,7 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.kotlin.toObservable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.reactivestreams.Subscriber
+import java.lang.Thread.sleep
 
 
 fun main() {
@@ -25,12 +26,17 @@ fun main() {
     .subscribeOn(Schedulers.io())
     .map(String::length)
     .observeOn(Schedulers.computation())
-    .filter { it > 6 }
-    .subscribe { length -> println("item length $length") }
+    .filter { it > 5 }
+    .subscribe { length -> sleep(3000) ; println("item length $length") }
 
-  val mySingle = Single.just(1)
-  val singleObserver = mySingle.subscribe { data ->
-   println("Received $data")
+
+  val mySingle = Single.just("first")
+  val singleObserver = mySingle
+    .subscribeOn(Schedulers.io())
+    .map(String::length)
+    .observeOn(Schedulers.computation())
+    .filter { it > 2 }
+    .subscribe { data -> println("Received $data")
   }
 
   val ob =  Observable.create { emitter: ObservableEmitter<Any?> ->
@@ -40,4 +46,5 @@ fun main() {
     emitter.onComplete()
   }.subscribe { x: Any? -> println(x) }
 
+  sleep(8000)
 }
